@@ -21,6 +21,11 @@ class puppet::master(
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
+  if($manage_apache)
+  {
+    $serviceinstance=Service['apache2']
+  }
+
   case $::osfamily
 	{
 		'redhat':
@@ -43,7 +48,7 @@ class puppet::master(
     mode    => '0644',
     content => template("${module_name}/master/debian/puppetmaster.erb"),
     require => Package[$puppet::params::puppet_master_packages],
-    notify  => Service['apache2'],
+    notify  => $serviceinstance,
   }
 
   concat::fragment{ 'puppetconf master':
@@ -51,7 +56,7 @@ class puppet::master(
     order   => '02',
     content => template("${module_name}/puppetconf_master.erb"),
     require => Package[$puppet::params::puppet_master_packages],
-    notify  => Service['apache2'],
+    notify  => $serviceinstance,
   }
 
   # /etc/apache2/sites-available/puppetmaster.conf
@@ -62,7 +67,7 @@ class puppet::master(
     mode    => '0644',
     content => template("${module_name}/master/apache/vhost_puppetmaster.erb"),
     require => Package[$puppet::params::puppet_master_packages],
-    notify  => Service['apache2'],
+    notify  => $serviceinstance,
   }
 
   exec { "build CA $certname":
@@ -74,7 +79,7 @@ class puppet::master(
   file { '/etc/apache2/sites-enabled/puppetmaster.conf':
     ensure  => '/etc/apache2/sites-available/puppetmaster.conf',
     require => File['/etc/apache2/sites-available/puppetmaster.conf'],
-    notify  => Service['apache2'],
+    notify  => $serviceinstance,
   }
 
   file { '/etc/puppet/logstash.yaml':
