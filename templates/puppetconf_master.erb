@@ -17,5 +17,9 @@
 
   ca_ttl=<%= @ca_ttl %>
 
+<% if defined?(@logstash_host) -%>
   report = true
   reports = logstash
+<% else %>
+  report = <%= @report %>
+<% end -%>

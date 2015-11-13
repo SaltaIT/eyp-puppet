@@ -12,6 +12,7 @@ class puppet::master(
                       $ca_ttl='1000y',
                       $logstash_host='127.0.0.1',
                       $logstash_port='5959',
+                      $report=true,
                     ) inherits puppet::params {
 
   #masterless only
