@@ -3,7 +3,7 @@ class puppet::master(
                       $dns_alt_names=undef,
                       $puppetmasterport='8140',
                       $report_to_logstash=true,
-                      $manage_apache=true,
+                      $manage_service=true,
                       $masterhttplog='/dev/null',
                       $autosign=true,
                       $pluginsync=true,
@@ -21,7 +21,7 @@ class puppet::master(
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
-  if($manage_apache)
+  if($manage_service)
   {
     $serviceinstance=Service['apache2']
   }
@@ -90,7 +90,7 @@ class puppet::master(
     content => template("${module_name}/logstash_reporter/logstash.yaml.erb"),
   }
 
-  if($manage_apache)
+  if($manage_service)
   {
     service { 'apache2':
       ensure => 'running',
