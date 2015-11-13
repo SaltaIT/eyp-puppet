@@ -13,6 +13,8 @@ class puppet::master(
                       $logstash_host='127.0.0.1',
                       $logstash_port='5959',
                       $report=true,
+                      $modulepath='/etc/puppet/modules:/usr/share/puppet/modules',
+                      $basemodulepath='/etc/puppet/modules:/usr/share/puppet/modules',
                     ) inherits puppet::params {
 
   #masterless only
