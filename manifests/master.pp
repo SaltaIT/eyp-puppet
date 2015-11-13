@@ -85,20 +85,23 @@ class puppet::master(
     content => template("${module_name}/logstash_reporter/logstash.yaml.erb"),
   }
 
-  service { 'apache2':
-    ensure => 'running',
-    enable => true,
-    require =>  [
-                  File[
-                        [
-                          '/etc/apache2/sites-enabled/puppetmaster.conf',
-                          '/etc/apache2/sites-available/puppetmaster.conf',
-                          '/etc/default/puppetmaster',
-                          '/etc/puppet/logstash.yaml'
-                        ]
-                      ],
-                  Exec["build CA $certname"],
-                  Concat['/etc/puppet/puppet.conf'],
-                ],
+  if($manage_apache)
+  {
+    service { 'apache2':
+      ensure => 'running',
+      enable => true,
+      require =>  [
+                    File[
+                          [
+                            '/etc/apache2/sites-enabled/puppetmaster.conf',
+                            '/etc/apache2/sites-available/puppetmaster.conf',
+                            '/etc/default/puppetmaster',
+                            '/etc/puppet/logstash.yaml'
+                          ]
+                        ],
+                    Exec["build CA $certname"],
+                    Concat['/etc/puppet/puppet.conf'],
+                  ],
+    }
   }
 }
