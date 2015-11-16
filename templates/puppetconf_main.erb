@@ -1,5 +1,5 @@
 #
-# puppet managed file, do NOT mess with it
+# puppet managed file, do NOT mess with t
 #
 
 [main]
@@ -14,3 +14,6 @@
   # Where SSL certificates are kept.
   # The default value is '$confdir/ssl'.
   ssldir = $vardir/ssl
+
+  modulepath=<%= @modulepath %>
+  basemodulepath=<%= @basemodulepath %>
