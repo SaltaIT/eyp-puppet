@@ -37,11 +37,15 @@ class puppet::puppetlabsrepo(
       require => Exec["mkdir p puppet ${srcdir}"],
     }
 
-    package { $puppet::params::puppetlabs_package:
-      ensure   => 'installed',
-      provider => $puppet::params::package_provider,
-      source   => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
-      require  => Exec['wget puppetlabs repo puppet'],
+    #compatibilitat eyp-mcollecitve
+    if ! defined(Package['puppetlabs-release'])
+    {
+      package { $puppet::params::puppetlabs_package:
+        ensure   => 'installed',
+        provider => $puppet::params::package_provider,
+        source   => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
+        require  => Exec['wget puppetlabs repo puppet'],
+      }
     }
   }
 }
