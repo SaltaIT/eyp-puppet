@@ -9,12 +9,6 @@ class puppet::puppetlabsrepo(
 
   if($enable_puppetlabs_repo)
   {
-    package { 'paquet wget puppetlabsrepo puppet':
-      name   => 'wget',
-      ensure => 'installed',
-      before => Exec['wget puppetlabs repo puppet'],
-    }
-
     if($puppet::params::package_provider=="rpm")
     {
       file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs":
@@ -34,10 +28,10 @@ class puppet::puppetlabsrepo(
     exec { 'wget puppetlabs repo puppet':
       command => "wget ${puppet::params::puppetlabs_repo} -O ${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
       creates => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
-      require => Exec["mkdir p puppet ${srcdir}"],
+      require => [ Exec["mkdir p puppet ${srcdir}"], Package['wget'] ],
     }
 
-    #compatibilitat eyp-mcollecitve
+    #compatilbiitat eyp-mcollective
     if ! defined(Package['puppetlabs-release'])
     {
       package { $puppet::params::puppetlabs_package:

@@ -9,6 +9,7 @@ class puppet::client(
 											$autorestart=true,
 											$report=true,
 											$srcdir='/usr/local/src',
+											$manage_package=true,
 										) inherits puppet::params {
 
 	validate_bool($pluginsync)
@@ -21,9 +22,13 @@ class puppet::client(
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
-	package { 'puppet':
-		ensure  => $ensure,
-		require => Class['puppet::puppetlabsrepo'],
+	if($manage_package)
+	{
+		package { 'puppet':
+			ensure  => $ensure,
+			require => Class['puppet::puppetlabsrepo'],
+			before  => Exec['mkdir_logpuppet'],
+		}
 	}
 
 	file { $defaultsfile:
@@ -40,7 +45,6 @@ class puppet::client(
 	exec { 'mkdir_logpuppet':
 		command => '/bin/mkdir -p /var/log/puppet',
 		creates => '/var/log/puppet',
-		require => Package['puppet'],
 	}
 
 	concat::fragment{ 'puppetconf agent':
@@ -52,8 +56,9 @@ class puppet::client(
 	}
 
 	service { 'puppet':
-		enable => true,
-		ensure => $daemon_status,
+		enable  => true,
+		ensure  => $daemon_status,
+		require => Class['puppet'],
 	}
 
 	if($autorestart) and ($daemon_status=='running')
