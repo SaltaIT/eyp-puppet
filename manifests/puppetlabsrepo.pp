@@ -7,6 +7,11 @@ class puppet::puppetlabsrepo(
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
+  if($::eyp_puppet_wget==undef)
+  {
+    fail('wget not found, please install it')
+  }
+
   if($enable_puppetlabs_repo)
   {
     if($puppet::params::package_provider=="rpm")
@@ -28,7 +33,7 @@ class puppet::puppetlabsrepo(
     exec { 'wget puppetlabs repo puppet':
       command => "wget ${puppet::params::puppetlabs_repo} -O ${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
       creates => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
-      require => [ Exec["mkdir p puppet ${srcdir}"], Package['wget'] ],
+      require => Exec["mkdir p puppet ${srcdir}"],
     }
 
     #compatilbiitat eyp-mcollective
