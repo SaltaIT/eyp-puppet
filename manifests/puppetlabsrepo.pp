@@ -9,14 +9,14 @@ class puppet::puppetlabsrepo(
 
   if($::eyp_puppet_wget==undef)
   {
-    fail('wget not found, please install it')
+    fail('wget not found, please install it'
   }
 
   if($enable_puppetlabs_repo)
   {
-    if($puppet::params::package_provider=="rpm")
+    if($puppet::params::package_provider=='rpm')
     {
-      file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs":
+      file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs':
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
