@@ -9,7 +9,7 @@ class puppet::puppetlabsrepo(
 
   if($::eyp_puppet_wget==undef)
   {
-    fail('wget not found, please install it'
+    fail('wget not found, please install it')
   }
 
   if($enable_puppetlabs_repo)
