@@ -7,7 +7,7 @@ class puppet::puppetlabsrepo(
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
-  if($::eyp_puppet_wget==undef)
+  if(getvar('::eyp_puppet_wget')==undef)
   {
     fail('wget not found, please install it')
   }
