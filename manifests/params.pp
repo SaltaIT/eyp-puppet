@@ -3,6 +3,26 @@ class puppet::params {
 	$puppetlabs_package='puppetlabs-release'
 	$default_enable_puppetlabs_repo=true
 
+	#TODO: SuSE
+	# zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
+	# zypper install puppet
+
+	# exemple:
+	# 8159919d6adc:/etc/profile.d # zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
+	# Adding repository 'puppet' [done]
+	# Repository 'puppet' successfully added
+	# Enabled: Yes
+	# Autorefresh: Yes
+	# GPG check: Yes
+	# URI: http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/
+	#
+	# 8159919d6adc:/etc/profile.d # zypper lr
+	# # | Alias  | Name   | Enabled | Refresh
+	# --+--------+--------+---------+--------
+	# 1 | puppet | puppet | Yes     | Yes
+	# 8159919d6adc:/etc/profile.d #
+
+
 	case $::osfamily
 	{
 		'redhat':
