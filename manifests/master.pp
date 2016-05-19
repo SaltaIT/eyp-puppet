@@ -26,6 +26,11 @@ class puppet::master(
     $serviceinstance=Service['apache2']
   }
 
+  if($dns_alt_names!=undef)
+  {
+    validate_array($dns_alt_names)
+  }
+
   case $::osfamily
 	{
 		'redhat':
