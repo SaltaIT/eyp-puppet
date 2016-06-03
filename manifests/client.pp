@@ -1,15 +1,16 @@
 class puppet::client(
-											$puppetmaster= 'puppetmaster',
-											$puppetmasterport='8140',
-											$pluginsync=true,
-											$waitforcert=30,
-											$showdiff=true,
-											$ensure='installed',
-											$daemon_status='running',
-											$autorestart=true,
-											$report=true,
-											$srcdir='/usr/local/src',
-											$manage_package=true,
+											$puppetmaster     = 'puppetmaster',
+											$puppetmasterport = '8140',
+											$pluginsync       = true,
+											$waitforcert      = 30,
+											$showdiff         = true,
+											$ensure           = 'installed',
+											$daemon_status    = 'running',
+											$autorestart      = true,
+											$report           = true,
+											$srcdir           = '/usr/local/src',
+											$manage_package   = true,
+											$log              = '/var/log/puppet/puppet.log',
 										) inherits puppet::params {
 
 	validate_bool($pluginsync)

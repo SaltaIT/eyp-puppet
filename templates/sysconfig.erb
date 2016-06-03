@@ -5,10 +5,11 @@ PUPPET_SERVER=<%= scope.lookupvar('puppetclient::puppetmaster') %>
 PUPPET_PORT=<%= scope.lookupvar('puppetclient::puppetmasterport') %>
 
 # Where to log to. Specify syslog to send log messages to the system log.
-PUPPET_LOG=/var/log/puppet/puppet.log
+<% if defined?(@log) -%>
+PUPPET_LOG=<%= @log %>
+<% end -%>
 
 # You may specify other parameters to the puppet client here
 <% if(@waitforcert) -%>
 PUPPET_EXTRA_OPTS="--waitforcert=<%= @waitforcert %>"
 <% end -%>
-
