@@ -11,5 +11,5 @@ PUPPET_LOG=<%= @log %>
 
 # You may specify other parameters to the puppet client here
 <% if(@waitforcert) -%>
-PUPPET_EXTRA_OPTS="--waitforcert=<%= @waitforcert %>"
+PUPPET_EXTRA_OPTS="--waitforcert=<%= @waitforcert %><% if defined?(@log) %> --logdest=<%= @log %><% end %>"
 <% end -%>

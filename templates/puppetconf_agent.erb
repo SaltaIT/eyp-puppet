@@ -14,7 +14,7 @@
   server = <%= @puppetmaster %>
   masterport = <%= @puppetmasterport %>
 
-  logdir = /var/log/puppet
+  logdir = <%= @logdir %>
   rundir = /var/run/puppet
 
 <% if(@waitforcert) -%>

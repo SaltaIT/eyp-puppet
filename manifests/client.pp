@@ -1,16 +1,19 @@
 class puppet::client(
-											$puppetmaster     = 'puppetmaster',
-											$puppetmasterport = '8140',
-											$pluginsync       = true,
-											$waitforcert      = 30,
-											$showdiff         = true,
-											$ensure           = 'installed',
-											$daemon_status    = 'running',
-											$autorestart      = true,
-											$report           = true,
-											$srcdir           = '/usr/local/src',
-											$manage_package   = true,
-											$log              = '/var/log/puppet/puppet.log',
+											$puppetmaster      = 'puppetmaster',
+											$puppetmasterport  = '8140',
+											$pluginsync        = true,
+											$waitforcert       = 30,
+											$showdiff          = true,
+											$ensure            = 'installed',
+											$daemon_status     = 'running',
+											$autorestart       = true,
+											$report            = true,
+											$srcdir            = '/usr/local/src',
+											$manage_package    = true,
+											$log               = '/var/log/puppet/puppet.log',
+											$logdir            = '/var/log/puppet',
+											$logrotate_rotate  = '15',
+											$logrotate_maxsize = '100M',
 										) inherits puppet::params {
 
 	validate_bool($pluginsync)
@@ -70,6 +73,19 @@ class puppet::client(
 				pid        => '/var/run/puppet/agent.pid',
 				initscript => '/etc/init.d/puppet',
 			}
+		}
+	}
+
+	if(defined(Class['logrotate']))
+	{
+		logrotate::logs { "puppet-client":
+			log          => $log,
+			compress     => true,
+			copytruncate => true,
+			frequency    => 'daily',
+			rotate       => $logrotate_rotate,
+			missingok    => true,
+			size         => $logrotate_maxsize,
 		}
 	}
 

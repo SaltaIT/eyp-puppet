@@ -1,5 +1,4 @@
 START=yes
 
 # Startup options
-DAEMON_OPTS=""
-
+DAEMON_OPTS="<% if defined?(@log) %>--logdest=<%= @log %><% end %>"
