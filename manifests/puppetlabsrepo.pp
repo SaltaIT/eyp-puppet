@@ -14,7 +14,7 @@ class puppet::puppetlabsrepo(
 
   if($enable_puppetlabs_repo)
   {
-    if($puppet::params::puppet_install_supported==false)
+    if(!$puppet::params::puppet_install_supported)
     {
       fail("Installation unsupported on ${::operatingsystem} ${::operatingsystemrelease}")
     }
