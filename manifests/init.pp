@@ -3,7 +3,7 @@
 # Copyright 2015 Your name here, unless otherwise noted.
 #
 class puppet(
-              $enable_puppetlabs_repo = puppet::params::default_enable_puppetlabs_repo,
+              $enable_puppetlabs_repo = $puppet::params::default_enable_puppetlabs_repo,
               $srcdir                 = '/usr/local/src',
               $basemodulepath         = '/etc/puppet/modules:/usr/share/puppet/modules',
             ) inherits puppet::params {
