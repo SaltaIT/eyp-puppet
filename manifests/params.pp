@@ -1,7 +1,7 @@
 class puppet::params {
 
 	$puppetlabs_package='puppetlabs-release'
-	$default_enable_puppetlabs_repo=true
+
 
 	#TODO: SuSE
 	# zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
@@ -27,10 +27,11 @@ class puppet::params {
 	{
 		'redhat':
 		{
+			$default_enable_puppetlabs_repo=true
+			$puppet_install_supported=true
 			$enableepel=true
 			$defaultsfile="/etc/sysconfig/puppet"
 			$defaultstemplate="sysconfig.erb"
-			$monitconfd="/etc/monit.d"
 			$package_provider="rpm"
 
 			#TODO: versio rh
@@ -51,29 +52,57 @@ class puppet::params {
 		}
 		'Debian':
 		{
-		case $::operatingsystem
-		{
-			'Ubuntu':
+			$default_enable_puppetlabs_repo=true
+			$puppet_install_supported=true
+			case $::operatingsystem
 			{
-				$enableepel=false
-				$defaultsfile="/etc/default/puppet"
-				$defaultstemplate="defaultsubuntu.erb"
-				$monitconfd="/etc/monit/conf.d"
-				$package_provider="dpkg"
-
-				$puppet_master_packages = [ 'puppetmaster-passenger' ]
-
-				case $::operatingsystemrelease
+				'Ubuntu':
 				{
-					/^14.*$/:
+					$enableepel=false
+					$defaultsfile="/etc/default/puppet"
+					$defaultstemplate="defaultsubuntu.erb"
+					$package_provider="dpkg"
+
+					$puppet_master_packages = [ 'puppetmaster-passenger' ]
+
+					case $::operatingsystemrelease
 					{
-						$puppetlabs_repo='https://apt.puppetlabs.com/puppetlabs-release-trusty.deb'
+						/^14.*$/:
+						{
+							$puppetlabs_repo='https://apt.puppetlabs.com/puppetlabs-release-trusty.deb'
+						}
+						default: { fail("Unsupported Ubuntu version! - $::operatingsystemrelease")  }
 					}
-					default: { fail("Unsupported Ubuntu version! - $::operatingsystemrelease")  }
 				}
+				'Debian': { fail("Unsupported")  }
+				default: { fail("Unsupported Debian flavour!")  }
 			}
-			'Debian': { fail("Unsupported")  }
-			default: { fail("Unsupported Debian flavour!")  }
+		}
+		'Suse':
+		{
+			$default_enable_puppetlabs_repo=false
+			$puppet_install_supported=false
+			$enableepel=false
+			case $::operatingsystem
+			{
+				'SLES':
+				{
+					case $::operatingsystemrelease
+					{
+						'11.3':
+						{
+							$defaultsfile="/etc/sysconfig/puppet"
+							$defaultstemplate="sysconfig.erb"
+							$package_provider="rpm"
+
+							$puppet_master_packages=undef
+
+							$puppetlabs_repo=undef
+						}
+						default: { fail("Unsupported operating system ${::operatingsystem} ${::operatingsystemrelease}") }
+					}
+				}
+				default: { fail("Unsupported operating system ${::operatingsystem}") }
 			}
 		}
 		default: { fail("Unsupported OS!")  }

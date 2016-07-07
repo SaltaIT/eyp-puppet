@@ -1,6 +1,6 @@
 class puppet::puppetlabsrepo(
                               $enable_puppetlabs_repo,
-                              $srcdir='/usr/local/src',
+                              $srcdir = '/usr/local/src',
                             ) inherits puppet::params {
 
   Exec {
@@ -10,6 +10,11 @@ class puppet::puppetlabsrepo(
   if(getvar('::eyp_puppet_wget')==undef)
   {
     fail('wget not found, please install it')
+  }
+
+  if($puppet_install_supported==false)
+  {
+    fail("Installation unsupported on ${::operatingsystem} ${::operatingsystemrelease}")
   }
 
   if($enable_puppetlabs_repo)
