@@ -9,7 +9,7 @@ class puppet::client(
 											$autorestart       = true,
 											$report            = true,
 											$srcdir            = '/usr/local/src',
-											$manage_package    = true,
+											$manage_package    = $puppet::params::manage_package_default,
 											$log               = '/var/log/puppet/puppet.log',
 											$logdir            = '/var/log/puppet',
 											$logrotate_rotate  = '15',
@@ -28,6 +28,11 @@ class puppet::client(
 
 	if($manage_package)
 	{
+		if($puppet::params::puppet_install_supported==false)
+    {
+      fail("Installation unsupported on ${::operatingsystem} ${::operatingsystemrelease}")
+    }
+
 		package { 'puppet':
 			ensure  => $ensure,
 			require => Class['puppet::puppetlabsrepo'],
