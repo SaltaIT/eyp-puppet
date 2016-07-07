@@ -1,6 +1,6 @@
 class puppet::puppetlabsrepo(
-                              $enable_puppetlabs_repo,
-                              $srcdir = '/usr/local/src',
+                              $enable_puppetlabs_repo = true,
+                              $srcdir                 = '/usr/local/src',
                             ) inherits puppet::params {
 
   Exec {
