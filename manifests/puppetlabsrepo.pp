@@ -12,6 +12,11 @@ class puppet::puppetlabsrepo(
     fail('wget not found, please install it')
   }
 
+  if($puppet_install_supported==false)
+  {
+    fail("Installation unsupported on ${::operatingsystem} ${::operatingsystemrelease}")
+  }
+
   if($enable_puppetlabs_repo)
   {
     if($puppet::params::package_provider=='rpm')
