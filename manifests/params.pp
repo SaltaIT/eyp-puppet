@@ -29,6 +29,7 @@ class puppet::params {
 		{
 			$default_enable_puppetlabs_repo=true
 			$puppet_install_supported=true
+			$manage_package_default=true
 			$enableepel=true
 			$defaultsfile="/etc/sysconfig/puppet"
 			$defaultstemplate="sysconfig.erb"
@@ -54,6 +55,7 @@ class puppet::params {
 		{
 			$default_enable_puppetlabs_repo=true
 			$puppet_install_supported=true
+			$manage_package_default=true
 			case $::operatingsystem
 			{
 				'Ubuntu':
@@ -82,6 +84,7 @@ class puppet::params {
 		{
 			$default_enable_puppetlabs_repo=false
 			$puppet_install_supported=false
+			$manage_package_default=false
 			$enableepel=false
 			case $::operatingsystem
 			{
