@@ -31,9 +31,9 @@ class puppet::params {
 			$puppet_install_supported=true
 			$manage_package_default=true
 			$enableepel=true
-			$defaultsfile="/etc/sysconfig/puppet"
-			$defaultstemplate="sysconfig.erb"
-			$package_provider="rpm"
+			$defaultsfile='/etc/sysconfig/puppet'
+			$defaultstemplate='sysconfig.erb'
+			$package_provider='rpm'
 
 			#TODO: versio rh
 			$puppet_master_packages=undef
@@ -48,7 +48,7 @@ class puppet::params {
 				{
 					$puppetlabs_repo='https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm'
 				}
-				default: { fail("Unsupported RHEL/CentOS version! - $::operatingsystemrelease")  }
+				default: { fail("Unsupported RHEL/CentOS version! - ${::operatingsystemrelease}")  }
 			}
 		}
 		'Debian':
@@ -73,11 +73,11 @@ class puppet::params {
 						{
 							$puppetlabs_repo='https://apt.puppetlabs.com/puppetlabs-release-trusty.deb'
 						}
-						default: { fail("Unsupported Ubuntu version! - $::operatingsystemrelease")  }
+						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
 					}
 				}
-				'Debian': { fail("Unsupported")  }
-				default: { fail("Unsupported Debian flavour!")  }
+				'Debian': { fail('Unsupported')  }
+				default: { fail('Unsupported Debian flavour!')  }
 			}
 		}
 		'Suse':
@@ -108,6 +108,6 @@ class puppet::params {
 				default: { fail("Unsupported operating system ${::operatingsystem}") }
 			}
 		}
-		default: { fail("Unsupported OS!")  }
+		default: { fail('Unsupported OS!')  }
 	}
 }
