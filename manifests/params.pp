@@ -77,7 +77,7 @@ class puppet::params {
 					}
 				}
 				'Debian': { fail('Unsupported')  }
-				default: { fail('Unsupported Debian flavour!')  }
+				default: { fail('Unsupported Debian flavour!l')  }
 			}
 		}
 		'Suse':
