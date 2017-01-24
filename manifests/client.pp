@@ -1,19 +1,21 @@
 class puppet::client(
-											$puppetmaster      = 'puppetmaster',
-											$puppetmasterport  = '8140',
-											$pluginsync        = true,
-											$waitforcert       = 30,
-											$showdiff          = true,
-											$ensure            = 'installed',
-											$daemon_status     = 'running',
-											$autorestart       = true,
-											$report            = true,
-											$srcdir            = '/usr/local/src',
-											$manage_package    = $puppet::params::manage_package_default,
-											$log               = '/var/log/puppet/puppet.log',
-											$logdir            = '/var/log/puppet',
-											$logrotate_rotate  = '15',
-											$logrotate_maxsize = '100M',
+											$puppetmaster          = 'puppetmaster',
+											$puppetmasterport      = '8140',
+											$pluginsync            = true,
+											$waitforcert           = 30,
+											$showdiff              = true,
+											$ensure                = 'installed',
+											$daemon_status         = 'running',
+											$autorestart           = true,
+											$report                = true,
+											$srcdir                = '/usr/local/src',
+											$manage_package        = $puppet::params::manage_package_default,
+											$log                   = '/var/log/puppet/puppet.log',
+											$logdir                = '/var/log/puppet',
+											$logrotate_rotate      = '15',
+											$logrotate_maxsize     = '100M',
+											$install_nagios_checks = true,
+											$nagios_check_basedir  = '/usr/local/bin',
 										) inherits puppet::params {
 
 	validate_bool($pluginsync)
@@ -91,6 +93,17 @@ class puppet::client(
 			rotate       => $logrotate_rotate,
 			missingok    => true,
 			size         => $logrotate_maxsize,
+		}
+	}
+
+	if($install_nagios_checks)
+	{
+		file { "${nagios_check_basedir}/check_last_puppet_run":
+			ensure  => 'present',
+			owner   => 'root',
+			group   => 'root',
+			mode    => '0755',
+			content => template("${module_name}/nagios/check_last_puppet_run.erb"),
 		}
 	}
 
