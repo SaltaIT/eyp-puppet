@@ -48,6 +48,10 @@ class puppet::params {
 				{
 					$puppetlabs_repo='https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm'
 				}
+				/^5.*$/:
+				{
+					$puppetlabs_repo='http://yum.puppetlabs.com/el/5/products/x86_64/puppetlabs-release-22.0-2.noarch.rpm'
+				}
 				default: { fail("Unsupported RHEL/CentOS version! - ${::operatingsystemrelease}")  }
 			}
 		}
