@@ -22,7 +22,6 @@ class puppet::params {
 	# 1 | puppet | puppet | Yes     | Yes
 	# 8159919d6adc:/etc/profile.d #
 
-
 	case $::osfamily
 	{
 		'redhat':
