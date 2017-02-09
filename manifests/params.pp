@@ -22,7 +22,6 @@ class puppet::params {
 	# 1 | puppet | puppet | Yes     | Yes
 	# 8159919d6adc:/etc/profile.d #
 
-
 	case $::osfamily
 	{
 		'redhat':
@@ -47,6 +46,10 @@ class puppet::params {
 				/^7.*$/:
 				{
 					$puppetlabs_repo='https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm'
+				}
+				/^5.*$/:
+				{
+					$puppetlabs_repo='http://yum.puppetlabs.com/el/5/products/x86_64/puppetlabs-release-22.0-2.noarch.rpm'
 				}
 				default: { fail("Unsupported RHEL/CentOS version! - ${::operatingsystemrelease}")  }
 			}
