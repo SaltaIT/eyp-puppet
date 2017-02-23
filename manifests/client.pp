@@ -43,7 +43,7 @@ class puppet::client(
 
 		if($puppet::puppetlabsrepo::enable_puppetlabs_repo)
 		{
-			Package { 'puppet':
+			Package['puppet'] {
 				require => Class['puppet::puppetlabsrepo'],
 			}
 		}
