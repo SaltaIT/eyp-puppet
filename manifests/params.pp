@@ -81,8 +81,8 @@ class puppet::params {
 						}
 						/^16.*$/:
 						{
-							$default_enable_puppetlabs_repo=false
-							$puppetlabs_repo=undef
+							$default_enable_puppetlabs_repo=true
+							$puppetlabs_repo='https://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb'
 							$client_autorestart_default = false
 						}
 						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
