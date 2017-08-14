@@ -2,7 +2,6 @@ class puppet::params {
 
 	$puppetlabs_package='puppetlabs-release'
 
-
 	#TODO: SuSE
 	# zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
 	# zypper install puppet
