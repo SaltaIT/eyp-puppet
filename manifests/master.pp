@@ -141,9 +141,11 @@ class puppet::master(
                 notify  => $serviceinstance,
               }
 						}
-						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
+						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}") }
+          }
         }
         default: { fail('unsupported') }
+      }
     }
     default: { fail('unsupported') }
   }
