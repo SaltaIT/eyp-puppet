@@ -140,6 +140,8 @@ class puppet::master(
                 require => Package[$puppet::params::puppet_master_packages],
                 notify  => $serviceinstance,
               }
+
+              fail('unimplemented')
 						}
 						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}") }
           }
