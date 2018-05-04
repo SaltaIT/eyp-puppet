@@ -41,6 +41,10 @@ class puppet::params {
 			$pidfile_default = undef
 			$codedir_default = undef
 
+			$ssldir_default='$vardir/ssl'
+
+			$has_pluginsync=true
+
 			#TODO: versio rh
 			$puppet_master_packages=undef
 
@@ -91,6 +95,8 @@ class puppet::params {
 							$rundir_default = undef
 							$pidfile_default = undef
 							$codedir_default = undef
+							$ssldir_default='$vardir/ssl'
+							$has_pluginsync=true
 						}
 						/^16.*$/:
 						{
@@ -104,6 +110,23 @@ class puppet::params {
 							$rundir_default = '/var/run/puppetlabs/puppetserver'
 							$pidfile_default = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
 							$codedir_default = '/etc/puppetlabs/code'
+							$ssldir_default='$vardir/ssl'
+							$has_pluginsync=true
+						}
+						/^18.*$/:
+						{
+							$default_enable_puppetlabs_repo=false
+							$puppetlabs_repo='https://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb'
+							$client_autorestart_default = false
+
+							$puppetconf = '/etc/puppet/puppet.conf'
+							$vardir_default = undef
+							$logdir_default = undef
+							$rundir_default = undef
+							$pidfile_default = undef
+							$codedir_default = undef
+							$ssldir_default='/var/lib/puppet/ssl'
+							$has_pluginsync=false
 						}
 						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
 					}
@@ -118,6 +141,8 @@ class puppet::params {
 			$puppet_install_supported=false
 			$manage_package_default=false
 			$enableepel=false
+			$has_pluginsync=true
+			$ssldir_default='$vardir/ssl'
 			case $::operatingsystem
 			{
 				'SLES':
