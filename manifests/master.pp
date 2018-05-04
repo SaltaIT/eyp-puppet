@@ -96,7 +96,8 @@ class puppet::master(
               }
 
               file { '/etc/apache2/sites-enabled/puppetmaster.conf':
-                ensure  => '/etc/apache2/sites-available/puppetmaster.conf',
+                ensure  => 'link',
+                target  => '/etc/apache2/sites-available/puppetmaster.conf',
                 require => File['/etc/apache2/sites-available/puppetmaster.conf'],
                 notify  => $serviceinstance,
               }
