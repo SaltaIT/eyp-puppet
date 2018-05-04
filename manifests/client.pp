@@ -21,7 +21,6 @@ class puppet::client(
 
   validate_bool($pluginsync)
   validate_bool($autorestart)
-
   validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${ensure}")
   validate_re($daemon_status, [ '^running$', '^stopped$' ], "Not a valid daemon status: ${ensure}")
 
