@@ -123,7 +123,7 @@ class puppet::master(
                                         '/etc/puppet/logstash.yaml'
                                       ]
                                     ],
-                                Exec["build CA $certname"],
+                                Exec["build CA ${certname}"],
                                 Concat['/etc/puppet/puppet.conf'],
                               ],
                 }
