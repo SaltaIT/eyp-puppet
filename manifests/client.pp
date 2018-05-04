@@ -37,8 +37,8 @@ class puppet::client(
     }
 
     package { 'puppet':
-      ensure  => $ensure,
-      before  => Exec['mkdir_logpuppet'],
+      ensure => $ensure,
+      before => Exec['mkdir_logpuppet'],
       #require => Class['puppet::puppetlabsrepo'],
     }
 
@@ -50,15 +50,15 @@ class puppet::client(
     }
   }
 
-  file { $defaultsfile:
+  file { $puppet::params::defaultsfile:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => 0644,
+    mode    => '0644',
     require => Exec['mkdir_logpuppet'],
-    notify  => Service["puppet"],
-    before  => Service["puppet"],
-    content => template("${module_name}/${defaultstemplate}"),
+    notify  => Service['puppet'],
+    before  => Service['puppet'],
+    content => template("${module_name}/${puppet::params::defaultstemplate}"),
   }
 
   exec { 'mkdir_logpuppet':
@@ -75,8 +75,8 @@ class puppet::client(
   }
 
   service { 'puppet':
-    enable  => $service_enable,
     ensure  => $daemon_status,
+    enable  => $service_enable,
     require => Class['puppet'],
   }
 
