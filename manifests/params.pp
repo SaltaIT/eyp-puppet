@@ -75,9 +75,9 @@ class puppet::params {
         'Ubuntu':
         {
         $enableepel=false
-        $defaultsfile="/etc/default/puppet"
-        $defaultstemplate="defaultsubuntu.erb"
-        $package_provider="dpkg"
+        $defaultsfile='/etc/default/puppet'
+        $defaultstemplate='defaultsubuntu.erb'
+        $package_provider='dpkg'
 
         $puppet_master_packages = [ 'puppetmaster-passenger' ]
 
@@ -151,9 +151,9 @@ class puppet::params {
           {
           '11.3':
           {
-            $defaultsfile="/etc/sysconfig/puppet"
-            $defaultstemplate="sysconfig.erb"
-            $package_provider="rpm"
+            $defaultsfile='/etc/sysconfig/puppet'
+            $defaultstemplate='sysconfig.erb'
+            $package_provider='rpm'
 
             $puppet_master_packages=undef
 

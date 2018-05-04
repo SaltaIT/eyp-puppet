@@ -43,21 +43,21 @@ class puppet::master(
   }
 
   case $::osfamily
-	{
-		'redhat':
-		{
+  {
+    'redhat':
+    {
       fail('TODO')
     }
     'Debian':
-		{
+    {
       case $::operatingsystem
       {
         'Ubuntu':
         {
           case $::operatingsystemrelease
-					{
-						/^14.*$/:
-						{
+          {
+            /^14.*$/:
+            {
               #require puppet::puppetlabsrepo
 
               file { '/etc/default/puppetmaster':
@@ -112,8 +112,8 @@ class puppet::master(
               if($manage_service)
               {
                 service { 'apache2':
-                  ensure => 'running',
-                  enable => true,
+                  ensure  => 'running',
+                  enable  => true,
                   require =>  [
                                 File[
                                       [
@@ -128,9 +128,9 @@ class puppet::master(
                               ],
                 }
               }
-						}
-						/^16.*$/:
-						{
+            }
+            /^16.*$/:
+            {
               file { '/etc/default/puppetserver':
                 ensure  => 'present',
                 owner   => 'root',
@@ -142,8 +142,8 @@ class puppet::master(
               }
 
               fail('unimplemented')
-						}
-						default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}") }
+            }
+            default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}") }
           }
         }
         default: { fail('unsupported') }
