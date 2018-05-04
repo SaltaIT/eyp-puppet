@@ -89,7 +89,7 @@ class puppet::master(
                 notify  => $serviceinstance,
               }
 
-              exec { "build CA $certname":
+              exec { "build CA ${certname}":
                 command => "puppet cert --generate ${certname}",
                 creates => "/var/lib/puppet/ssl/certs/${certname}.pem",
                 require => Package[$puppet::params::puppet_master_packages],
