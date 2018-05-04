@@ -10,12 +10,12 @@ class puppet(
             ) inherits puppet::params {
 
   if($enable_puppetlabs_repo)
-	{
-		class { 'puppet::puppetlabsrepo':
-			enable_puppetlabs_repo => $enable_puppetlabs_repo,
+  {
+    class { 'puppet::puppetlabsrepo':
+      enable_puppetlabs_repo => $enable_puppetlabs_repo,
       srcdir                 => $srcdir,
-		}
-	}
+    }
+  }
 
   concat { $puppet::params::puppetconf:
   	ensure => 'present',
