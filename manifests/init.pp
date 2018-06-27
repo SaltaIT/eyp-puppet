@@ -4,6 +4,7 @@ class puppet(
               $ssldir                 = $puppet::params::ssldir_default,
               $basemodulepath         = '/etc/puppet/modules:/usr/share/puppet/modules',
             ) inherits puppet::params {
+
   if($enable_puppetlabs_repo)
   {
     class { 'puppet::puppetlabsrepo':
@@ -11,6 +12,7 @@ class puppet(
       srcdir                 => $srcdir,
     }
   }
+
   concat { $puppet::params::puppetconf:
     ensure => 'present',
     owner  => 'root',

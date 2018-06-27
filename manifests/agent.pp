@@ -7,8 +7,6 @@ class puppet::client(
                       $ensure                = 'installed',
                       $daemon_status         = 'running',
                       $service_enable        = true,
-                      $autorestart           = $puppet::params::client_autorestart_default,
-                      $report                = true,
                       $srcdir                = '/usr/local/src',
                       $manage_package        = $puppet::params::manage_package_default,
                       $log                   = '/var/log/puppet/puppet.log',
@@ -19,10 +17,7 @@ class puppet::client(
                       $nagios_check_basedir  = '/usr/local/bin',
                     ) inherits puppet::params {
 
-  validate_bool($pluginsync)
-  validate_bool($autorestart)
-  validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${ensure}")
-  validate_re($daemon_status, [ '^running$', '^stopped$' ], "Not a valid daemon status: ${ensure}")
+  include ::puppet
 
   Exec {
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
@@ -90,28 +85,8 @@ class puppet::client(
     }
   }
 
-  if(defined(Class['logrotate']))
-  {
-    logrotate::logs { 'puppet-client':
-      log          => $log,
-      compress     => true,
-      copytruncate => true,
-      frequency    => 'daily',
-      rotate       => $logrotate_rotate,
-      missingok    => true,
-      size         => $logrotate_maxsize,
-    }
-  }
 
-  if($install_nagios_checks)
-  {
-    file { "${nagios_check_basedir}/check_last_puppet_run":
-      ensure  => 'present',
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0755',
-      content => file("${module_name}/check_last_puppet_run.sh"),
-    }
-  }
+
+
 
 }

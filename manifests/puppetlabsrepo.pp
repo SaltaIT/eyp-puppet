@@ -7,11 +7,6 @@ class puppet::puppetlabsrepo(
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
-  if(getvar('::eyp_puppet_wget')==undef)
-  {
-    fail('wget not found, please install it')
-  }
-
   if($enable_puppetlabs_repo)
   {
     if(!$puppet::params::puppet_install_supported)
@@ -35,21 +30,18 @@ class puppet::puppetlabsrepo(
       creates => $srcdir,
     }
 
-    exec { 'wget puppetlabs repo puppet':
-      command => "wget ${puppet::params::puppetlabs_repo} -O ${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
+
+    download { 'puppetlabs repo puppet':
+      url     => $puppet::params::puppetlabs_repo,
       creates => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
       require => Exec["mkdir p puppet ${srcdir}"],
     }
 
-    #compatilbiitat eyp-mcollective
-    if ! defined(Package['puppetlabs-release'])
-    {
-      package { $puppet::params::puppetlabs_package:
-        ensure   => 'installed',
-        provider => $puppet::params::package_provider,
-        source   => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
-        require  => Exec['wget puppetlabs repo puppet'],
-      }
+    package { $puppet::params::puppetlabs_package:
+      ensure   => 'installed',
+      provider => $puppet::params::package_provider,
+      source   => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
+      require  => Download['puppetlabs repo puppet'],
     }
   }
 }
