@@ -2,6 +2,7 @@ class puppet::params {
 
   $puppetlabs_package='puppetlabs-release'
   $agent_service_name='puppet'
+  $agent_package_name='puppet'
   $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
 
   #TODO: SuSE
