@@ -15,6 +15,7 @@ class puppet(
   exec { "mkdir p puppet ${srcdir}":
     command => "mkdir -p ${srcdir}",
     creates => $srcdir,
+    path    => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
   concat { $puppet::params::puppetconf:
