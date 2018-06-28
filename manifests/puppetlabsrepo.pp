@@ -25,12 +25,6 @@ class puppet::puppetlabsrepo(
       }
     }
 
-    exec { "mkdir p puppet ${srcdir}":
-      command => "mkdir -p ${srcdir}",
-      creates => $srcdir,
-    }
-
-
     download { 'puppetlabs repo puppet':
       url     => $puppet::params::puppetlabs_repo,
       creates => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",

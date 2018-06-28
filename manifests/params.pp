@@ -1,6 +1,7 @@
 class puppet::params {
 
   $puppetlabs_package='puppetlabs-release'
+  $agent_service_name='puppet'
 
   #TODO: SuSE
   # zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
@@ -25,7 +26,6 @@ class puppet::params {
   {
     'redhat':
     {
-      $default_enable_puppetlabs_repo=true
       $puppet_install_supported=true
       $manage_package_default=true
       $enableepel=true
@@ -73,17 +73,14 @@ class puppet::params {
         {
           /^14.*$/:
           {
-            $default_enable_puppetlabs_repo=true
             $puppetlabs_repo='https://apt.puppetlabs.com/puppet5-release-trusty.deb'
           }
           /^16.*$/:
           {
-            $default_enable_puppetlabs_repo=false
             $puppetlabs_repo='https://apt.puppetlabs.com/puppet5-release-xenial.deb'
           }
           /^18.*$/:
           {
-            $default_enable_puppetlabs_repo=false
             $puppetlabs_repo='https://apt.puppetlabs.com/puppet5-release-xenial.deb'
 
             fail('Work in progress')

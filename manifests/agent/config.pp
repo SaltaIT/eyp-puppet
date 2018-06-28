@@ -1,12 +1,18 @@
 #
 class puppet::agent::config inherits puppet::agent {
-  #
-  file { '/etc/salt/agent':
-    ensure  => 'present',
+
+  file { $puppet::params::defaultsfile:
+    ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => '0640',
-    content => template("${module_name}/agent/agent.erb"),
+    mode    => '0644',
+    content => template("${module_name}/${puppet::params::defaultstemplate}"),
+  }
+
+  concat::fragment{ 'puppetconf agent':
+    target  => $puppet::params::puppetconf,
+    order   => '01',
+    content => template("${module_name}/puppetconf_agent.erb"),
   }
 
   if(defined(Class['logrotate']))

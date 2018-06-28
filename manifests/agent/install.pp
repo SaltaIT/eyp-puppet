@@ -1,5 +1,9 @@
 class puppet::agent::install inherits puppet::agent {
 
+  Exec {
+    path => '/usr/sbin:/usr/bin:/sbin:/bin',
+  }
+
   if($puppet::agent::manage_package)
   {
     include ::puppet::puppetlabsrepo
@@ -7,6 +11,11 @@ class puppet::agent::install inherits puppet::agent {
     package { $puppet::params::agent_package_name:
       ensure => $puppet::agent::package_ensure,
     }
+  }
+
+  exec { 'mkdir logpuppet':
+    command => '/bin/mkdir -p /var/log/puppet',
+    creates => '/var/log/puppet',
   }
 
   if($puppet::agent::install_nagios_checks)

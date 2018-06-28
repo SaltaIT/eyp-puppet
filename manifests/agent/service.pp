@@ -9,7 +9,7 @@ class puppet::agent::service inherits puppet::agent {
     if($puppet::agent::manage_service)
     {
       service { $puppet::params::agent_service_name:
-        ensure => $puppet::agent::service_enable,
+        ensure => $puppet::agent::service_ensure,
         enable => $puppet::agent::service_enable,
       }
     }
