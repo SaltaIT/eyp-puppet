@@ -1,4 +1,4 @@
-class puppet::client(
+class puppet::agent(
                       $puppetmaster           = 'puppetmaster',
                       $puppetmasterport       = '8140',
                       $srcdir                 = '/usr/local/src',
@@ -18,10 +18,10 @@ class puppet::client(
 
   include ::puppet
 
-  class { '::saltstack::agent::install': } ->
-  class { '::saltstack::agent::config': } ~>
-  class { '::saltstack::agent::service': } ->
-  Class['::saltstack::agent']
+  class { '::puppet::agent::install': } ->
+  class { '::puppet::agent::config': } ~>
+  class { '::puppet::agent::service': } ->
+  Class['::puppet::agent']
 
 
 }
