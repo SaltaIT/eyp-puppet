@@ -2,6 +2,7 @@ class puppet(
               $srcdir                 = '/usr/local/src',
               $ssldir                 = $puppet::params::ssldir_default,
               $basemodulepath         = '/etc/puppet/modules:/usr/share/puppet/modules',
+              $enable_puppetlabs_repo =  true,
             ) inherits puppet::params {
 
   if($enable_puppetlabs_repo)
