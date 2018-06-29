@@ -18,6 +18,8 @@ class puppet(
     path    => '/usr/sbin:/usr/bin:/sbin:/bin',
   }
 
+  fail($puppet::params::puppetconf)
+
   concat { $puppet::params::puppetconf:
     ensure => 'present',
     owner  => 'root',
