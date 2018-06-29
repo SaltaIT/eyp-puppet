@@ -2,7 +2,7 @@
 class puppet::agent::config inherits puppet::agent {
 
   file { $puppet::params::defaultsfile:
-    ensure  => present,
+    ensure  => 'present',
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
