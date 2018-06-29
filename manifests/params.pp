@@ -2,7 +2,7 @@ class puppet::params {
 
   $puppetlabs_package='puppet5-release'
   $agent_service_name='puppet'
-  $agent_package_name='puppet'
+  $agent_package_name='puppet-agent'
   $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
 
 
