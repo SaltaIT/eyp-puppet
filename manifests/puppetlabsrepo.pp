@@ -11,17 +11,6 @@ class puppet::puppetlabsrepo(
   {
     if($puppet::params::puppetlabs_repo!=undef)
     {
-      if($puppet::params::package_provider=='rpm')
-      {
-        file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs':
-          owner  => 'root',
-          group  => 'root',
-          mode   => '0644',
-          source => "puppet:///modules/${module_name}/RPM-GPG-KEY-puppetlabs",
-          before => Package[$puppet::params::puppetlabs_package],
-        }
-      }
-
       download { 'puppetlabs repo puppet':
         url     => $puppet::params::puppetlabs_repo,
         creates => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
