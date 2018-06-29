@@ -1,43 +1,20 @@
 class puppet::params {
 
-  $puppetlabs_package='puppetlabs-release'
+  $puppetlabs_package='puppet5-release'
   $agent_service_name='puppet'
   $agent_package_name='puppet'
   $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
 
-  #TODO: SuSE
-  # zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
-  # zypper install puppet
-
-  # exemple:
-  # 8159919d6adc:/etc/profile.d # zypper addrepo -f http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/ puppet
-  # Adding repository 'puppet' [done]
-  # Repository 'puppet' successfully added
-  # Enabled: Yes
-  # Autorefresh: Yes
-  # GPG check: Yes
-  # URI: http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_11_SP2/
-  #
-  # 8159919d6adc:/etc/profile.d # zypper lr
-  # # | Alias  | Name   | Enabled | Refresh
-  # --+--------+--------+---------+--------
-  # 1 | puppet | puppet | Yes     | Yes
-  # 8159919d6adc:/etc/profile.d #
 
   case $::osfamily
   {
     'redhat':
     {
-      $puppet_install_supported=true
       $manage_package_default=true
       $enableepel=true
       $defaultsfile='/etc/sysconfig/puppet'
       $defaultstemplate='sysconfig.erb'
       $package_provider='rpm'
-
-
-      #TODO: versio rh
-      $puppet_master_packages=undef
 
       case $::operatingsystemrelease
       {
@@ -58,7 +35,6 @@ class puppet::params {
     }
     'Debian':
     {
-      $puppet_install_supported=true
       $manage_package_default=true
 
       case $::operatingsystem
@@ -68,8 +44,6 @@ class puppet::params {
         $defaultsfile='/etc/default/puppet'
         $defaultstemplate='defaultsubuntu.erb'
         $package_provider='dpkg'
-
-        $puppet_master_packages = [ 'puppetmaster-passenger' ]
 
         case $::operatingsystemrelease
         {
@@ -83,9 +57,7 @@ class puppet::params {
           }
           /^18.*$/:
           {
-            $puppetlabs_repo='https://apt.puppetlabs.com/puppet5-release-xenial.deb'
-
-            fail('Work in progress')
+            $puppetlabs_repo=undef
           }
           default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
           }
