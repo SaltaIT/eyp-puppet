@@ -26,7 +26,7 @@ class puppet(
   }
 
   concat::fragment{ 'puppetconf main':
-    target  => '/etc/puppet/puppet.conf',
+    target  => $puppet::params::puppetconf,
     order   => '00',
     content => template("${module_name}/puppetconf_main.erb"),
   }
