@@ -11,7 +11,6 @@ class puppet::params {
     'redhat':
     {
       $manage_package_default=true
-      $enableepel=true
       $defaultsfile='/etc/sysconfig/puppet'
       $defaultstemplate='sysconfig.erb'
       $package_provider='rpm'
@@ -36,15 +35,14 @@ class puppet::params {
     'Debian':
     {
       $manage_package_default=true
+      $defaultsfile='/etc/default/puppet'
+      $defaultstemplate='defaultpuppet.erb'
+      $package_provider='dpkg'
 
       case $::operatingsystem
       {
         'Ubuntu':
         {
-        $defaultsfile='/etc/default/puppet'
-        $defaultstemplate='defaultsubuntu.erb'
-        $package_provider='dpkg'
-
         case $::operatingsystemrelease
         {
           /^14.*$/:
