@@ -18,6 +18,7 @@ class puppet::agent(
 
   include ::puppet
 
+  Class['::puppet'] ->
   class { '::puppet::agent::install': } ->
   class { '::puppet::agent::config': } ~>
   class { '::puppet::agent::service': } ->

@@ -1,7 +1,7 @@
 class puppet::puppetlabsrepo(
                               $enable_puppetlabs_repo = true,
-                              $srcdir                 = '/usr/local/src',
-                            ) inherits puppet::params {
+                              $srcdir                 = $puppet::srcdir,
+                            ) inherits puppet {
 
   Exec {
     path => '/usr/sbin:/usr/bin:/sbin:/bin',
@@ -14,7 +14,7 @@ class puppet::puppetlabsrepo(
       download { 'puppetlabs repo puppet':
         url     => $puppet::params::puppetlabs_repo,
         creates => "${srcdir}/puppetlabs_repo.${puppet::params::package_provider}",
-        require => Exec["mkdir p puppet ${srcdir}"],
+        require => Class['::puppet'],
       }
 
       package { $puppet::params::puppetlabs_package:
