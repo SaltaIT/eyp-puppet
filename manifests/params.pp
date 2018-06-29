@@ -3,7 +3,7 @@ class puppet::params {
   $puppetlabs_package='puppet5-release'
   $agent_service_name='puppet'
   $agent_package_name='puppet-agent'
-  $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
+
 
 
   case $::osfamily
@@ -14,6 +14,8 @@ class puppet::params {
       $defaultsfile='/etc/sysconfig/puppet'
       $defaultstemplate='sysconfig.erb'
       $package_provider='rpm'
+
+      $puppetconf='/etc/puppet/puppet.conf'
 
       case $::operatingsystemrelease
       {
@@ -38,6 +40,8 @@ class puppet::params {
       $defaultsfile='/etc/default/puppet'
       $defaultstemplate='defaultpuppet.erb'
       $package_provider='dpkg'
+
+      $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
 
       case $::operatingsystem
       {
