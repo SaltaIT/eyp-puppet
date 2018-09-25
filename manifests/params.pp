@@ -68,6 +68,13 @@ class puppet::params {
     }
     'Suse':
     {
+      $manage_package_default=true
+      $defaultsfile='/etc/sysconfig/puppet'
+      $defaultstemplate='sysconfig.erb'
+      $package_provider='rpm'
+
+      $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
+
       case $::operatingsystem
       {
         'SLES':
