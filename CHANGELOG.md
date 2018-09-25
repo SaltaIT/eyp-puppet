@@ -3,6 +3,7 @@
 ## 0.2.0
 
 * updated to **puppet 5**
+* Added SLES12SP3 support
 
 ## 0.1.27
 

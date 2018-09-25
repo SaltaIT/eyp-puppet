@@ -4,8 +4,6 @@ class puppet::params {
   $agent_service_name='puppet'
   $agent_package_name='puppet-agent'
 
-
-
   case $::osfamily
   {
     'redhat':
@@ -66,6 +64,25 @@ class puppet::params {
         }
         'Debian': { fail('Unsupported')  }
         default: { fail('Unsupported Debian flavour!l')  }
+      }
+    }
+    'Suse':
+    {
+      case $::operatingsystem
+      {
+        'SLES':
+        {
+          case $::operatingsystemrelease
+          {
+            '12.3':
+            {
+              #rpm -Uvh https://yum.puppet.com/puppet5/puppet5-release-sles-12.noarch.rpm
+              #zypper install puppet-agent
+              $puppetlabs_repo='https://yum.puppet.com/puppet5/puppet5-release-sles-12.noarch.rpm'
+            }
+          }
+        }
+        default: { fail("Unsupported SuSE version! - ${::operatingsystemrelease}")  }
       }
     }
     default: { fail('Unsupported OS!')  }
