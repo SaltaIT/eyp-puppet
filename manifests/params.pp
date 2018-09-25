@@ -87,6 +87,7 @@ class puppet::params {
               #zypper install puppet-agent
               $puppetlabs_repo='https://yum.puppet.com/puppet5/puppet5-release-sles-12.noarch.rpm'
             }
+            default: { fail("Unsupported SLES version! - ${::operatingsystemrelease}")  }
           }
         }
         default: { fail("Unsupported SuSE version! - ${::operatingsystemrelease}")  }
