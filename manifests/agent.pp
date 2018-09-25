@@ -7,6 +7,7 @@ class puppet::agent(
                       $package_ensure         = 'installed',
                       $service_ensure         = 'running',
                       $service_enable         = true,
+                      $manage_service         = true,
                       $manage_package         = $puppet::params::manage_package_default,
                       $log                    = '/var/log/puppet/puppet.log',
                       $logdir                 = '/var/log/puppet',
