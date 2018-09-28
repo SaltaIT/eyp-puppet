@@ -15,7 +15,7 @@ class puppet::agent::config inherits puppet::agent {
       target  => $puppet::params::puppetconf,
       order   => '01',
       content => template("${module_name}/puppetconf_agent.erb"),
-    }  
+    }
   }
 
   if(defined(Class['logrotate']))
