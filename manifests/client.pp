@@ -36,7 +36,7 @@ class puppet::client(
     logrotate_maxsize     => $logrotate_maxsize,
     install_nagios_checks => $install_nagios_checks,
     nagios_check_basedir  => $nagios_check_basedir,
-    environment           => $environment,
+    puppet_environment    => $puppet_environment,
   }
 
 }
