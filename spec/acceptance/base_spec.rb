@@ -34,13 +34,13 @@ describe 'puppet class' do
       expect(shell("puppet config print environment | grep production").exit_code).to be_zero
     end
 
-    it 'should work with no errors' do
+    it 'tstenv should work with no errors' do
       pp = <<-EOF
 
       class { 'puppet::agent':
         puppetmaster       => 'lolmaster',
         puppetmasterport   => '1234',
-        puppet_environment => 'tst_env',
+        puppet_environment => 'tstenv',
       }
 
       EOF
@@ -55,7 +55,7 @@ describe 'puppet class' do
       its(:content) { should match 'puppet managed file' }
       its(:content) { should match 'server = lolmaster' }
       its(:content) { should match 'masterport = 1234' }
-      its(:content) { should match 'environment=tst_env' }
+      its(:content) { should match 'environment=tstenv' }
     end
 
     it "puppet configured env" do
@@ -63,7 +63,7 @@ describe 'puppet class' do
     end
 
     it "env tst_env" do
-      expect(shell("puppet config print environment | grep tst_env").exit_code).to be_zero
+      expect(shell("puppet config print environment | grep tstenv").exit_code).to be_zero
     end
 
   end
