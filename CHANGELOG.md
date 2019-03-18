@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## 0.2.4
+## 0.3.0
 
+* **INCOMPATIBLE CHANGE**: Dropped **puppet::client**
 * environment variable for puppet agent
 
 ## 0.2.3
