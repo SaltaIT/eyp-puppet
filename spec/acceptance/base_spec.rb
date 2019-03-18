@@ -38,9 +38,9 @@ describe 'puppet class' do
       pp = <<-EOF
 
       class { 'puppet::agent':
-        puppetmaster     => 'lolmaster',
-        puppetmasterport => '1234',
-        environment      => 'tst_env',
+        puppetmaster       => 'lolmaster',
+        puppetmasterport   => '1234',
+        puppet_environment => 'tst_env',
       }
 
       EOF

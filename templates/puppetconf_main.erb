@@ -2,7 +2,7 @@
 # puppet managed file
 #
 
-[main]
 <% if defined?(@puppet_environment) -%>
+[main]
   environment=<%= @puppet_environment %>
 <% end -%>
