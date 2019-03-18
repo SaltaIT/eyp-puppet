@@ -1,9 +1,9 @@
 require 'spec_helper_acceptance'
 require_relative './version.rb'
 
-describe 'postgresql class' do
+describe 'puppet class' do
 
-  context 'basic setup postgres 10' do
+  context 'basic setup' do
     # Using puppet_apply as a helper
     it 'should work with no errors' do
       pp = <<-EOF
@@ -56,6 +56,10 @@ describe 'postgresql class' do
       its(:content) { should match 'server = lolmaster' }
       its(:content) { should match 'masterport = 1234' }
       its(:content) { should match 'environment=tst_env' }
+    end
+
+    it "puppet configured env" do
+      expect(shell("puppet config print environment").exit_code).to be_zero
     end
 
     it "env tst_env" do
