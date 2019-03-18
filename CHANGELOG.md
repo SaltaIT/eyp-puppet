@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.4
+
+* environment variable for puppet agent
+
 ## 0.2.3
 
 * added support for **SLES11SP4**

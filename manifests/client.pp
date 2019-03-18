@@ -16,6 +16,7 @@ class puppet::client(
                       $install_nagios_checks  = true,
                       $nagios_check_basedir   = '/usr/local/bin',
                       $manage_config_file     = true,
+                      $environment            = undef,
                     ) inherits puppet::params {
 
   class { '::puppet::agent':
@@ -35,6 +36,7 @@ class puppet::client(
     logrotate_maxsize     => $logrotate_maxsize,
     install_nagios_checks => $install_nagios_checks,
     nagios_check_basedir  => $nagios_check_basedir,
+    environment           => $environment,
   }
 
 }

@@ -9,3 +9,7 @@
   waitforcert=<%= @waitforcert %>
 <% end -%>
   show_diff =<%= @showdiff %>
+
+<% if defined?(@environment) -%>
+  environment=<%= @environment %>
+<% end -%>
