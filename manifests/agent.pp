@@ -18,7 +18,7 @@ class puppet::agent(
                       $manage_config_file     = true,
                       $puppetenv              = undef,
                       $runinterval            = undef,
-                      $noop                   = false,
+                      $no_op                  = false,
                     ) inherits puppet::params {
 
   include ::puppet
