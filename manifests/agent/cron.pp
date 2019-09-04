@@ -11,7 +11,7 @@ define puppet::agent::cron(
                           ) {
 
   cron { "cron puppet ${server} ${masterport}":
-    ensure   => $cron_ensure,
+    ensure   => $ensure,
     command  => template("${module_name}/puppetcron.erb"),
     user     => 'root',
     hour     => $hour,
