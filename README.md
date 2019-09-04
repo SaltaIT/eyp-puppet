@@ -52,7 +52,7 @@ To be able to have multiple agents we can use a cronjobs:
 
 ```
 puppet::agent::cron { 'puppet.systemadmin.es':
-  masterport = '8140',
+  masterport => '8140',
 }
 ```
 
