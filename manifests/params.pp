@@ -13,7 +13,7 @@ class puppet::params {
       $defaultstemplate='sysconfig.erb'
       $package_provider='rpm'
 
-      $puppetconf='/etc/puppetlabs/puppet//puppet.conf'
+      $puppetconf='/etc/puppetlabs/puppet/puppet.conf'
 
       case $::operatingsystemrelease
       {
@@ -62,8 +62,8 @@ class puppet::params {
           default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
           }
         }
-        'Debian': { fail('Unsupported')  }
-        default: { fail('Unsupported Debian flavour!')  }
+        'Debian': { fail('Debian is currently unsupported')  }
+        default: { fail("Unsupported Debian flavour! - ${::operatingsystem}")  }
       }
     }
     'Suse':
