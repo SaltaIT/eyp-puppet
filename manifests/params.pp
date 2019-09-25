@@ -62,7 +62,17 @@ class puppet::params {
           default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
           }
         }
-        'Debian': { fail('Debian is currently unsupported')  }
+        'Debian':
+        {
+          case $::operatingsystemrelease
+          {
+            /^10.*$/:
+            {
+              $puppetlabs_repo=undef
+            }
+            default: { fail("Unsupported Debian version! - ${::operatingsystemrelease}")  }
+          }
+        }
         default: { fail("Unsupported Debian flavour! - ${::operatingsystem}")  }
       }
     }
