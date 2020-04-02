@@ -75,7 +75,7 @@ then
   exit 2
 fi
 
-DIFF_LAST_RUN=$(/usr/local/bin/puppetlr)
+DIFF_LAST_RUN=$(/usr/local/bin/puppetlr 2>/dev/null)
 
 if [ "$?" -ne 0 ];
 then

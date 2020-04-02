@@ -34,7 +34,7 @@ then
 	exit 2
 fi
 
-LAST_RUN=$(grep last_run ${LAST_RUN_FILE} | awk '{ print $NF }')
+LAST_RUN=$(grep last_run ${LAST_RUN_FILE} | awk '{ print $NF }' 2>/dev/null)
 
 if [ -z "$LAST_RUN" ];
 then
