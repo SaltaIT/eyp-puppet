@@ -42,6 +42,34 @@ then
 	exit 2
 fi
 
+#
+# outputs
+#
+# # grep -i catalo /var/lib/puppet/state/last_run_report.yaml
+#       message: "Could not retrieve catalog from remote server: Error 400 on SERVER: Puppet::Parser::AST::Resource failed with error ArgumentError: Could not find declared class sssd::monit at /etc/puppet/manifests/site.pp:919 on node centos7.vm"
+#       message: "Using cached catalog"
+#       message: "Finished catalog run in 7.96 seconds"
+#
+
+grep "Using cached catalog" ${LAST_RUN_FILE} >/dev/null 2>&1
+if [ "$?" -eq 0 ];
+then
+  # server using cached catalog
+  exit 2
+fi
+
+# # grep -i catalo /var/lib/puppet/state/last_run_report.yaml
+#       message: "Could not retrieve catalog from remote server: Error 400 on SERVER: Puppet::Parser::AST::Resource failed with error ArgumentError: Invalid resource type pam::securetty at /etc/puppet/manifests/site.pp:356 on node ar-tst2-ebsdb01.lifecapnet.com"
+#       message: "Not using cache on failed catalog"
+#       message: "Could not retrieve catalog; skipping run"
+#
+grep "Could not retrieve catalog from remote server" ${LAST_RUN_FILE} >/dev/null 2>&1
+if [ "$?" -eq 0 ];
+then
+  # could not retrieve catalog from remote server
+  exit 2
+fi
+
 NOW=$(date +%s)
 
 DIFF_LAST_RUN=$(($NOW-$LAST_RUN))

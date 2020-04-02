@@ -13,16 +13,6 @@ done
 
 shift $(($OPTIND - 1))
 
-DIFF_LAST_RUN=$(/usr/local/bin/puppetlr)
-
-if [ "$?" -ne 0 ];
-then
-  echo "CRITICAL - unable to fect last run data"
-  exit 2
-fi
-
-# PERFDATA="$PERFDATA difflastrun=$DIFF_LAST_RUN;"
-
 PUPPETBIN=$(which puppet 2>/dev/null)
 
 if [ -z "${PUPPETBIN}" ];
@@ -57,18 +47,6 @@ fi
 
 PERFDATA="$PERFDATA $(grep resources: ${LAST_RUN_FILE} -A7 | grep -v resources: | paste '-sd;')"
 
-if [ $DIFF_LAST_RUN -ge $MAXDIFF ];
-then
-	echo "CRITICAL - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
-	exit 2
-fi
-
-if [ $DIFF_LAST_RUN -ge $WARNDIFF ];
-then
-  echo "WARNING - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
-  exit 1
-fi
-
 #
 # outputs
 #
@@ -95,6 +73,34 @@ if [ "$?" -eq 0 ];
 then
   echo "CRITICAL - could not retrieve catalog from remote server |$PERFDATA"
   exit 2
+fi
+
+DIFF_LAST_RUN=$(/usr/local/bin/puppetlr)
+
+if [ "$?" -ne 0 ];
+then
+  echo "CRITICAL - unable to fect last run data"
+  exit 2
+fi
+
+if [ -z "${DIFF_LAST_RUN}" ];
+then
+  echo "CRITICAL - unable to fect last run data"
+  exit 2
+fi
+
+PERFDATA="$PERFDATA difflastrun=$DIFF_LAST_RUN;"
+
+if [ $DIFF_LAST_RUN -ge $MAXDIFF ];
+then
+	echo "CRITICAL - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
+	exit 2
+fi
+
+if [ $DIFF_LAST_RUN -ge $WARNDIFF ];
+then
+  echo "WARNING - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
+  exit 1
 fi
 
 # # grep -i catalo /var/lib/puppet/state/last_run_report.yaml
