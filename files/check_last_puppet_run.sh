@@ -1,52 +1,63 @@
 #!/bin/bash
+# puppet managed file
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-DIR='/var/lib/puppet'
 MAXDIFF=7200
 WARNDIFF=3600
 
-while getopts 'd:hc:w:' OPT; do
+while getopts 'c:w:' OPT; do
   case $OPT in
-    d)  DIR=$OPTARG;;
     c)  MAXDIFF=$OPTARG;;
     w)  WARNDIFF=$OPTARG;;
-    h)  JELP="yes";;
-    *)  JELP="yes";;
   esac
 done
 
 shift $(($OPTIND - 1))
 
-#/var/lib/puppet/state/last_run_summary.yaml
+DIFF_LAST_RUN=$(/usr/local/bin/puppetlr)
 
-if [ ! -e "${DIR}/state/last_run_summary.yaml" ];
+if [ "$?" -ne 0 ];
 then
-	echo "last_run_summary.yaml does not exists"
-	exit 2
+  echo "CRITICAL - unable to fect last run data"
+  exit 2
 fi
-
-if [ ! -e "${DIR}/state/last_run_report.yaml" ];
-then
-	echo "last_run_report.yaml does not exists"
-	exit 2
-fi
-
-LAST_RUN=$(grep last_run ${DIR}/state/last_run_summary.yaml | awk '{ print $NF }')
-
-if [ -z "$LAST_RUN" ];
-then
-	echo "error getting data from last_run_summary.yaml"
-	exit 2
-fi
-
-NOW=$(date +%s)
-
-DIFF_LAST_RUN=$(($NOW-$LAST_RUN))
 
 # PERFDATA="$PERFDATA difflastrun=$DIFF_LAST_RUN;"
 
-PERFDATA="$PERFDATA $(grep resources: ${DIR}/state/last_run_summary.yaml -A7 | grep -v resources: | paste '-sd;')"
+PUPPETBIN=$(which puppet 2>/dev/null)
+
+if [ -z "${PUPPETBIN}" ];
+then
+  echo "CRITICAL - puppet not found"
+  exit 2
+fi
+
+PUPPET_VER="$(${PUPPETBIN} --version 2>/dev/null)"
+
+if [[ $PUPPET_VER = 3* ]];
+then
+  LAST_RUN_FILE='/var/lib/puppet/state/last_run_summary.yaml'
+elif [[ $PUPPET_VER = 5* ]];
+then
+  LAST_RUN_FILE='/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml'
+else
+  exit 2
+fi
+
+if [ ! -e "${LAST_RUN_FILE}" ];
+then
+	echo "CRITICAL - last_run_summary.yaml does not exists"
+	exit 2
+fi
+
+if [ ! -e "${LAST_RUN_FILE}" ];
+then
+	echo "CRITICAL - last_run_report.yaml does not exists"
+	exit 2
+fi
+
+PERFDATA="$PERFDATA $(grep resources: ${LAST_RUN_FILE} -A7 | grep -v resources: | paste '-sd;')"
 
 if [ $DIFF_LAST_RUN -ge $MAXDIFF ];
 then
@@ -56,8 +67,8 @@ fi
 
 if [ $DIFF_LAST_RUN -ge $WARNDIFF ];
 then
-        echo "WARNING - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
-        exit 1
+  echo "WARNING - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
+  exit 1
 fi
 
 #
@@ -69,7 +80,7 @@ fi
 #       message: "Finished catalog run in 7.96 seconds"
 #
 
-grep "Using cached catalog" ${DIR}/state/last_run_report.yaml >/dev/null 2>&1
+grep "Using cached catalog" ${LAST_RUN_FILE} >/dev/null 2>&1
 if [ "$?" -eq 0 ];
 then
   echo "CRITICAL - server using cached catalog |$PERFDATA"
@@ -81,7 +92,7 @@ fi
 #       message: "Not using cache on failed catalog"
 #       message: "Could not retrieve catalog; skipping run"
 #
-grep "Could not retrieve catalog from remote server" ${DIR}/state/last_run_report.yaml >/dev/null 2>&1
+grep "Could not retrieve catalog from remote server" ${LAST_RUN_FILE} >/dev/null 2>&1
 if [ "$?" -eq 0 ];
 then
   echo "CRITICAL - could not retrieve catalog from remote server |$PERFDATA"
@@ -91,7 +102,7 @@ fi
 # # grep -i catalo /var/lib/puppet/state/last_run_report.yaml
 #       message: "Caching catalog for ar-mgmt-svn01.lifecapnet.com"
 #       message: "Finished catalog run in 10.89 seconds"
-grep "Finished catalog run" ${DIR}/state/last_run_report.yaml >/dev/null 2>&1
+grep "Finished catalog run" ${LAST_RUN_FILE} >/dev/null 2>&1
 if [ "$?" -eq 0 ];
 then
   echo "OK - last run: $DIFF_LAST_RUN seconds ago |$PERFDATA"
