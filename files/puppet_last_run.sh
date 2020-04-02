@@ -2,8 +2,6 @@
 # puppet managed file
 # snmpd compatible check
 
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
 PUPPETBIN=$(which puppet 2>/dev/null)
 
 if [ -z "${PUPPETBIN}" ];
