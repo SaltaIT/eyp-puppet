@@ -89,7 +89,7 @@ then
   exit 2
 fi
 
-PERFDATA="$PERFDATA difflastrun=$DIFF_LAST_RUN;"
+PERFDATA="${PERFDATA}; difflastrun=$DIFF_LAST_RUN;"
 
 if [ $DIFF_LAST_RUN -ge $MAXDIFF ];
 then
